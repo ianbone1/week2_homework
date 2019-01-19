@@ -8,11 +8,12 @@ class TestGuest < Minitest::Test
   def setup
     @song_title0 = "Dignity"
     @song0 = Song.new(@song_title0)
-    @guest0 = Guest.new("Ian", 100.0, @song0)
+    @guest0 = Guest.new("Ian", 21, 100.0, @song0)
   end
 
   def test_user_create
     assert_equal("Ian", @guest0.name)
+    assert_equal(21, @guest0.age)
     assert_equal(100.0, @guest0.wallet)
     assert_equal(@song0, @guest0.favourite_song)
   end
@@ -29,7 +30,7 @@ class TestGuest < Minitest::Test
     handed_over = @guest0.handover_money(bill)
     assert_equal(100.0, @guest0.wallet)
     assert_equal(0.0, handed_over)
-  end 
+  end
 
   def test_cashline
     top_up = 100.0

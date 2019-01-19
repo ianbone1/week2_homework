@@ -1,11 +1,15 @@
 class Guest
 
-  attr_reader :name, :wallet, :favourite_song
+  attr_reader :name, :age, :wallet, :favourite_song, :alcohol_level
+  attr_writer :alcohol_level
 
-  def initialize(name, wallet, favourite_song)
+
+  def initialize(name, age, wallet, favourite_song)
     @name = name  #type string
+    @age = age
     @wallet = wallet  #type float
     @favourite_song = favourite_song  #type song
+    @alcohol_level = 0.0
   end
 
   def handover_money(bill)

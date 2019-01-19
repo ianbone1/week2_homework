@@ -4,6 +4,8 @@ require_relative("../Guest.rb")
 require_relative("../Song.rb")
 require_relative("../Room.rb")
 require_relative("../Venue.rb")
+require_relative("../Drink.rb")
+require_relative("../Bar.rb")
 
 require("pry")
 
@@ -48,21 +50,21 @@ class TestRoom < Minitest::Test
     @person_name12 = "Kyle"
     @person_name13 = "Ewan"
     @person_name14 = "Simon"
-    @person0 = Guest.new(@person_name0, 100.0, @song0)
-    @person1 = Guest.new(@person_name1, 100.0, @song1)
-    @person2 = Guest.new(@person_name2, 100.0, @song2)
-    @person3 = Guest.new(@person_name3, 100.0, @song3)
-    @person4 = Guest.new(@person_name4, 100.0, @song4)
-    @person5 = Guest.new(@person_name5, 100.0, @song5)
-    @person6 = Guest.new(@person_name6, 100.0, @song6)
-    @person7 = Guest.new(@person_name7, 100.0, @song7)
-    @person8 = Guest.new(@person_name8, 100.0, @song8)
-    @person9 = Guest.new(@person_name9, 100.0, @song9)
-    @person10 = Guest.new(@person_name10, 100.0, @song0)
-    @person11 = Guest.new(@person_name11, 100.0, @song1)
-    @person12 = Guest.new(@person_name12, 100.0, @song2)
-    @person13 = Guest.new(@person_name13, 100.0, @song3)
-    @person14 = Guest.new(@person_name14, 100.0, @song4)
+    @person0 = Guest.new(@person_name0, 21, 100.0, @song0)
+    @person1 = Guest.new(@person_name1, 22, 100.0, @song1)
+    @person2 = Guest.new(@person_name2, 23, 100.0, @song2)
+    @person3 = Guest.new(@person_name3, 24, 100.0, @song3)
+    @person4 = Guest.new(@person_name4, 16, 100.0, @song4)
+    @person5 = Guest.new(@person_name5, 26, 100.0, @song5)
+    @person6 = Guest.new(@person_name6, 27, 100.0, @song6)
+    @person7 = Guest.new(@person_name7, 28, 100.0, @song7)
+    @person8 = Guest.new(@person_name8, 29, 100.0, @song8)
+    @person9 = Guest.new(@person_name9, 30, 100.0, @song9)
+    @person10 = Guest.new(@person_name10, 31, 100.0, @song0)
+    @person11 = Guest.new(@person_name11, 32, 100.0, @song1)
+    @person12 = Guest.new(@person_name12, 33, 100.0, @song2)
+    @person13 = Guest.new(@person_name13, 34, 100.0, @song3)
+    @person14 = Guest.new(@person_name14, 35, 100.0, @song4)
     @party0 = [@person0, @person1, @person2]
     @party1 = [@person3, @person4, @person5, @person6, @person7]
     @party2 = [@person8, @person9, @person10, @person11, @person12, @person13, @person14]
@@ -81,10 +83,20 @@ class TestRoom < Minitest::Test
     @room1 = Room.new(@room_name1, @room_max_guests1, @room_cost1)
     @room2 = Room.new(@room_name2, @room_max_guests2, @room_cost2)
 
+    @drink0 = Drink.new("Stella", 3.90, 2.5)
+    @drink1 = Drink.new("Strongbow", 3.80, 3.0)
+    @drink2 = Drink.new("White Wine", 4.0, 3.0)
+    @drink3 = Drink.new("Red Wine", 4.0, 3.0)
+    @drink4 = Drink.new("Whiskey", 4.5, 3.2)
+    @drinks = [@drink0, @drink1, @drink2, @drink3, @drink4]
+    @bar0 = Bar.new("The Singing Jug", @drinks, 18)
+
     @venue_name0 = "Code Clan Caraoke"
     @venue_rooms0 = [@room0, @room1, @room2]
+    @venue0 = Venue.new(@venue_name0, @venue_rooms0, @bar0)
 
-    @venue0 = Venue.new(@venue_name0, @venue_rooms0)
+
+
   end
 
   def test_venue_created
@@ -187,6 +199,26 @@ class TestRoom < Minitest::Test
     assert_equal(0, @room1.guest_list.count)
     assert_equal(0, @room1.play_list.count)
     assert_equal(500 , @venue0.bank_balance)
+  end
+
+  def test_person1_buys_a_drink
+    @venue0.order_drink(@person1, @drink1)
+    assert_equal(3.8, @venue0.bank_balance)
+    assert_equal(96.2, @person1.wallet)
+    assert_equal(3.0, @person1.alcohol_level)
+  end
+
+  def test_person1_buys_lots_of_drink
+    @venue0.order_drink(@person1, @drink1)
+    @venue0.order_drink(@person1, @drink1)
+    @venue0.order_drink(@person1, @drink1)
+    @venue0.order_drink(@person1, @drink1)
+    @venue0.order_drink(@person1, @drink1)
+    @venue0.order_drink(@person1, @drink1)
+    @venue0.order_drink(@person1, @drink1)
+    assert_equal(19.0, @venue0.bank_balance.round(2))
+    assert_equal(81.0, @person1.wallet.round(2))
+    assert_equal(15, @person1.alcohol_level.round(2))
   end
 
 end

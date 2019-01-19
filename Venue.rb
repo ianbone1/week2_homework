@@ -1,10 +1,11 @@
 class Venue
 
-  attr_reader :name, :rooms, :bank_balance
+  attr_reader :name, :rooms, :bank_balance, :bar
 
-  def initialize(name, rooms)
+  def initialize(name, rooms, bar)
     @name = name # string
     @rooms = rooms # array of room objects
+    @bar = bar
     @bank_balance = 0.0 # bank balance
   end
 
@@ -20,7 +21,7 @@ class Venue
     return nil
   end
 
-  def cashier(guests, free_room)
+  def charge_for_room(guests, free_room)
     guests.each do |guest|
       money_from_guest = guest.handover_money(free_room.room_cost)
       # if guest can't afford it, zero is returned.
@@ -43,7 +44,7 @@ class Venue
     return nil if free_room == nil
 
     # handle the money and enter room
-    cashier(guests, free_room)
+    charge_for_room(guests, free_room)
 
     # assign the playlist if we have people in the room
     if free_room.guest_list.count > 0
@@ -60,5 +61,23 @@ class Venue
     the_room.play_list = []
   end
 
+
+
+  def order_drink(person, drink)
+    #pre checks:
+    #age
+    return nil if person.age < @bar.age_limit
+    #bar has the drink
+    return nil unless @bar.drinks.include?(drink)
+    #not too drunk
+    return nil if person.alcohol_level >= 15.0
+
+    money_from_guest = person.handover_money(drink.price)
+    return nil if money_from_guest == 0.0
+    @bank_balance += money_from_guest
+    person.alcohol_level += drink.units
+    return true
+
+  end
 
 end
