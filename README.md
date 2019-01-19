@@ -24,6 +24,7 @@ Your program should be test driven and should be able to:
 
 #### - Done
 - Guests could have a favourite song, and if their favourite song is on the room's playlist, they can cheer loudly! (return a string like "Whoo!") ### - Done
-#### - Pending
+#### - Done
 - Rooms can keep track of the entry fees/spending of the guests - maybe add a bar tab/bar class?
+
 - Add anything extra you think would be good to have at a karaoke venue!
